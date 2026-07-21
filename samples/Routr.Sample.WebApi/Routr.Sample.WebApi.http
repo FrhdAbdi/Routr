@@ -1,0 +1,6 @@
+@Routr.Sample.WebApi_HostAddress = http://localhost:5192
+
+GET {{Routr.Sample.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

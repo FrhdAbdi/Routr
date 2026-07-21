@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Routr.Sample.WebApi/Routr.Sample.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Routr.SourceGenerator/Routr.SourceGenerator.csproj" />
+    <Project Path="src/Routr/Routr.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Routr.SourceGenerator.Tests/Routr.SourceGenerator.Tests.csproj" />
+    <Project Path="tests/Routr.Tests/Routr.Tests.csproj" />
+  </Folder>
+</Solution>
