@@ -1,5 +1,7 @@
 # Routr
 
+[![CI](https://github.com/FrhdAbdi/Routr/actions/workflows/ci.yml/badge.svg)](https://github.com/FrhdAbdi/Routr/actions/workflows/ci.yml)
+
 **A lightweight, zero‑reflection Mediator implementation for .NET, powered by Roslyn source generators.**
 
 Routr eliminates runtime reflection by generating fast, trim‑friendly dispatch code at compile time.  
