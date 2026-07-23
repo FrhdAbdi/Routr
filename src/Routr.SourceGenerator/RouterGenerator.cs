@@ -83,7 +83,7 @@ public sealed class RouterGenerator : IIncrementalGenerator
         foreach (var h in handlers)
         {
             sb.AppendLine($$"""
-                    {{h.RequestType}} r => ExecutePipeline<{{h.RequestType}}, {{h.ResponseType}}>(r, sp, cancellationToken),
+                    {{h.RequestType}} r => (Task<TResponse>)(object)ExecutePipeline<{{h.RequestType}}, {{h.ResponseType}}>(r, sp, cancellationToken),
             """);
         }
 
