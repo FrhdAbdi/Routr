@@ -26,22 +26,20 @@ Routr is distributed as two NuGet packages:
 - `Routr` – core abstractions (interfaces and the optional manual `Sender`)
 - `Routr.SourceGenerator` – the Roslyn incremental generator that creates the real dispatcher
 
-To use it, add the core package to your application, and reference the generator as an **analyzer** in any project that contains handlers.
-
 **Via CLI:**
 
-\`\`\`bash
+```bash
 dotnet add package Routr
 dotnet add package Routr.SourceGenerator
-\`\`\`
+```
 
 Then ensure the generator runs as an analyzer in your handler project (e.g., Web API). If using project references, set:
 
-\`\`\`xml
+```xml
 <ProjectReference Include="..\path\to\Routr.SourceGenerator.csproj"
                   OutputItemType="Analyzer"
                   ReferenceOutputAssembly="false" />
-\`\`\`
+```
 
 ---
 
@@ -49,7 +47,7 @@ Then ensure the generator runs as an analyzer in your handler project (e.g., Web
 
 ### 1. Define a request and its handler
 
-\`\`\`csharp
+```csharp
 using Routr;
 
 public record CreateUserCommand(string Name) : IRequest<Guid>;
@@ -59,24 +57,24 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, Guid>
     public Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         => Task.FromResult(Guid.NewGuid());
 }
-\`\`\`
+```
 
 ### 2. Register Routr in your DI container
 
-\`\`\`csharp
+```csharp
 // Program.cs
 builder.Services.AddRoutrHandlers();   // This method is source‑generated!
-\`\`\`
+```
 
 ### 3. Inject `ISender` and dispatch
 
-\`\`\`csharp
+```csharp
 app.MapPost("/users", async (CreateUserCommand cmd, ISender sender) =>
 {
     var newId = await sender.Send(cmd);
     return Results.Created($"/users/{newId}", new { Id = newId });
 });
-\`\`\`
+```
 
 That's it—no marker interfaces, no base classes, no reflection.
 
@@ -88,7 +86,7 @@ Behaviours allow cross‑cutting concerns like logging, validation, or retries t
 
 **Create a behaviour:**
 
-\`\`\`csharp
+```csharp
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
@@ -105,13 +103,13 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         return response;
     }
 }
-\`\`\`
+```
 
 **Register the behaviour (order matters):**
 
-\`\`\`csharp
+```csharp
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-\`\`\`
+```
 
 The generated sender will execute behaviours in registration order (outermost first). This is identical to MediatR's pipeline semantics.
 
@@ -121,7 +119,7 @@ The generated sender will execute behaviours in registration order (outermost fi
 
 For fire‑and‑forget events, implement `INotification` and `INotificationHandler<T>`.
 
-\`\`\`csharp
+```csharp
 public record UserCreatedEvent(Guid UserId) : INotification;
 
 public class SendWelcomeEmailHandler : INotificationHandler<UserCreatedEvent>
@@ -132,13 +130,13 @@ public class SendWelcomeEmailHandler : INotificationHandler<UserCreatedEvent>
         return Task.CompletedTask;
     }
 }
-\`\`\`
+```
 
 Publish via `IPublisher`:
 
-\`\`\`csharp
+```csharp
 await publisher.Publish(new UserCreatedEvent(newId));
-\`\`\`
+```
 
 All registered handlers for that notification type are discovered and called at compile time.
 
@@ -184,9 +182,9 @@ Routr's test suite ensures correctness at every level:
 
 All tests run in CI and can be executed locally:
 
-\`\`\`bash
+```bash
 dotnet test
-\`\`\`
+```
 
 ---
 
