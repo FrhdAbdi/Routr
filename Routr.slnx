@@ -8,6 +8,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Routr.SourceGenerator.Tests/Routr.SourceGenerator.Tests.csproj" />
+    <Project Path="tests/Routr.Tests.Integration/Routr.Tests.Integration.csproj" />
     <Project Path="tests/Routr.Tests/Routr.Tests.csproj" />
   </Folder>
 </Solution>
