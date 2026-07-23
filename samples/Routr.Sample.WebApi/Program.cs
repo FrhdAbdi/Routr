@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<ISender, GeneratedSender>();
+builder.Services.AddRoutrHandlers();
 
 
 var app = builder.Build();
